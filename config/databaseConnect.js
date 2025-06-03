@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const connString = process.env.MONGO_URL || "mongodb://localhost:27017/fortHiveUsers";
+const connString = process.env.MONGO_URL || "mongodb+srv://Raymond17:wsqbGhGGytmxVInn@clustergomycode.7pynx6y.mongodb.net/forthiveusers";
 
 
 const connectDB = async () => {
