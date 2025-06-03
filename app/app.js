@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv"
+import cors from "cors"
 import bodyParser from "body-parser";
 import connectDB from "../config/databaseConnect.js";
 import userRouter from "../routes/userRouter.js";
@@ -15,6 +16,10 @@ dotenv.config({
     path: "backend/config.env"
 })
 
+app.use(cors({
+  origin: "http://localhost:3000", // allowed my  React frontend
+  credentials: true,               // allow cookies cause i'm  using them
+}));
 const app = express()
 
 app.use(cookieParser())  //allow the app to use cookie parser for login timeouts and sessions
