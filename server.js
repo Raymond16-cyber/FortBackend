@@ -1,6 +1,6 @@
 import dotenv from "dotenv"
 dotenv.config({
-    path: "./backend/config.env"
+    path: "./config.env"
 })
 
 import http from "http"
@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 4000;
 
 const server =http.createServer(app)
 console.log("PORT:", process.env.PORT);
-console.log("Checking file exists:", fs.existsSync("./backend/config.env"));
+console.log("Checking file exists:", fs.existsSync("./config.env"));
 
 
 // app.get("/",(req,res)=>{
