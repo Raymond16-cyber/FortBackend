@@ -1,5 +1,5 @@
 import dotenv from "dotenv"
-dotenv.config({ path: "./backend/config.env" })
+dotenv.config({ path: "./config.env" })
 
 import http from "http"
 import app from "./app/app.js"
