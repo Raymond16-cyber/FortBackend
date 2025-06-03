@@ -145,6 +145,9 @@ export const userLoginController = asyncHandler(async (req, res) => {
     );
 
     const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Only secure in production
+      sameSite: "Lax", // Use "None" + secure: true if frontend is hosted on a different domain
       expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
     };
 
@@ -155,7 +158,9 @@ export const userLoginController = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.error("❌ Backend Login Crash:", error.message);
-    return res.status(500).json({ error: "Internal server Error from backend controller" });
+    return res
+      .status(500)
+      .json({ error: "Internal server Error from backend controller" });
   }
 });
 

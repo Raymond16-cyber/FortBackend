@@ -7,10 +7,14 @@ const authMiddleware = async (req, res, next) => {
     return res.status(401).json({ error: "Please login first" });
   }
 
-  const decoded = await jwt.verify(userToken, process.env.JWT_SECRET); // throws if invalid
-
-  req.myID = decoded.id;
-  next();
+  try {
+    const decoded = jwt.verify(userToken, process.env.JWT_SECRET);
+    req.myID = decoded.id;
+    next();
+  } catch (err) {
+    console.error("JWT verification failed:", err.message);
+    return res.status(401).json({ error: "Invalid or expired token" });
+  }
 };
 
 export default authMiddleware;
