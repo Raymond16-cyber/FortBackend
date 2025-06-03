@@ -2,7 +2,8 @@ import http from "http"
 import app from "./app/app.js"
 
 
-const PORT = 4000
+const PORT = process.env.PORT || 4000;
+
 
 
 const server =http.createServer(app)

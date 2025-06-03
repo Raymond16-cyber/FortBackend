@@ -1,39 +1,42 @@
 import express from "express";
-import dotenv from "dotenv"
-import cors from "cors"
+import dotenv from "dotenv";
+import cors from "cors";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+
+// LoadING env first!
+dotenv.config({ path: "backend/config.env" });
+
 import connectDB from "../config/databaseConnect.js";
 import userRouter from "../routes/userRouter.js";
-import cookieParser from "cookie-parser";
 import flankAIRouter from "../routes/flankAIRouter.js";
-
 import friendsRouter from "../routes/friendsRouter.js";
 import friendRequestRouter from "../routes/friendRequestRouter.js";
 
+// Connect to database
+connectDB();
 
-connectDB()
-dotenv.config({
-    path: "backend/config.env"
-})
+const app = express();
 
-const app = express()
+// CORS config
 app.use(cors({
-  origin: "http://localhost:3000", // allowed my  React frontend
-  credentials: true,               // allow cookies cause i'm  using them
+  origin: "http://localhost:3000", // Replace with frontend domain on production
+  credentials: true,
 }));
 
-app.use(cookieParser())  //allow the app to use cookie parser for login timeouts and sessions
-app.use(express.json())
-app.use(bodyParser.json())
+app.use(cookieParser());
+app.use(express.json());
+app.use(bodyParser.json());
 
+// Optional: health check
+app.get("/", (req, res) => {
+  res.send("✅ Backend server is running");
+});
 
+// Routers
+app.use("/api/v1/fort", userRouter);
+app.use("/api/v1/fort", friendsRouter);
+app.use("/api/v1/fort", friendRequestRouter);
+app.use("/api/v1/fort", flankAIRouter); // ✅ fixed missing slash
 
-// Using routers
-app.use("/api/v1/fort",userRouter)   //router must be same as that in the frontend's store,axios.post method
-app.use("/api/v1/fort",friendsRouter)   //router must be same as that in the frontend's store,axios.post method
-app.use("/api/v1/fort",friendRequestRouter)   //router must be same as that in the frontend's store,axios.post method
-
-// ai router
-app.use("api/v1/fort",flankAIRouter)
-
-export default app
+export default app;
