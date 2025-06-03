@@ -12,7 +12,7 @@ import friendRequestRouter from "../routes/friendRequestRouter.js";
 
 connectDB()
 dotenv.config({
-    path: "backend/config/config.env"
+    path: "backend/config.env"
 })
 
 const app = express()
