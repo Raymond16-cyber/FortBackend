@@ -155,7 +155,7 @@ export const userLoginController = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.error("❌ Backend Login Crash:", error.message);
-    return res.status(500).json({ error: "Internal server Error" });
+    return res.status(500).json({ error: "Internal server Error from backend controller" });
   }
 });
 
