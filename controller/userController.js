@@ -105,68 +105,65 @@ export const userRegisterController = asyncHandler((req, res) => {
 //       Controller for when the user logs in
 export const userLoginController = asyncHandler(async (req, res) => {
   const errors = [];
-
   const { email, pword } = req.body;
+
   if (!email) errors.push("Email is required.");
   if (!pword) errors.push("Password is required.");
   if (!validator.isEmail(email)) errors.push("Invalid email format.");
+
   if (errors.length > 0) {
-    return res.status(400).json({
-      error: errors,
-    });
-  } else {
-    try {
-      const user = await User.findOne({ email }).select("+pword");
-      if (!user) {
-        res.status(404).json({
-          error:
-            "There's no account linked with this email,try registering with us",
-        });
-      }
-      // Check if user's password is correct
-      const matchedPassword = await bcrypt.compare(pword, user.pword);
-      if (matchedPassword) {
-        const token = jwt.sign(
-          {
-            id: user._id,
-            email: user.email,
-            fname: user.fname,
-            lname: user.lname,
-            RegDate: user.createdAt,
-          },
-          process.env.JWT_SECRET,
-          {
-            expiresIn: "1h" || process.env.JWT_EXPIRES_IN,
-          }
-        );
-        const cookieOptions = {
-          expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days
-          // httpOnly: true,
-        };
-        return res.status(200).cookie("userToken", token, cookieOptions).json({
-          successMessage: "User Logged In successfully✅✅",
-          token,
-          user,
-        });
-      } else {
-        return res.status(400).json({
-          error: "Your email or password is invalid",
-        });
-      }
-    } catch (error) {
+    return res.status(400).json({ error: errors });
+  }
+
+  try {
+    const user = await User.findOne({ email }).select("+pword");
+    if (!user) {
       return res.status(404).json({
-        error: "Internal server Error",
+        error: "There's no account linked with this email, try registering.",
       });
     }
+
+    const matchedPassword = await bcrypt.compare(pword, user.pword);
+    if (!matchedPassword) {
+      return res
+        .status(400)
+        .json({ error: "Your email or password is invalid" });
+    }
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        fname: user.fname,
+        lname: user.lname,
+        RegDate: user.createdAt,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN || "1h",
+      }
+    );
+
+    const cookieOptions = {
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+    };
+
+    return res.status(200).cookie("userToken", token, cookieOptions).json({
+      successMessage: "User Logged In successfully✅✅",
+      token,
+      user,
+    });
+  } catch (error) {
+    console.error("❌ Backend Login Crash:", error.message);
+    return res.status(500).json({ error: "Internal server Error" });
   }
 });
-
 
 // Logout controller
 export const userLogoutController = asyncHandler(async (req, res) => {
   console.log("logout successful");
-  
-  return res.status(200).cookie("userToken","").json({
+
+  return res.status(200).cookie("userToken", "").json({
     success: "true",
   });
 });
