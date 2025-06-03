@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 4000;
 
 
 const server =http.createServer(app)
+console.log("PORT:", process.env.PORT);
+
 
 // app.get("/",(req,res)=>{
 //     res.send("hola")
