@@ -25,6 +25,8 @@ const getLastMessage = async (currentUserId, friendID) => {
 
 export const getFriendsController = asyncHandler(async (req, res) => {
   const currentUserId = req.myID;
+  console.log("from cont...",currentUserId);
+  
   let friendMessage = [];
 
   try {
