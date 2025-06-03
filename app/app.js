@@ -1,11 +1,10 @@
 import express from "express";
-import dotenv from "dotenv";
+
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 
-// LoadING env first!
-dotenv.config({ path: "./backend/config.env" });
+
 
 import connectDB from "../config/databaseConnect.js";
 import userRouter from "../routes/userRouter.js";
