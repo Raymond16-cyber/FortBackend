@@ -16,11 +16,11 @@ dotenv.config({
     path: "backend/config.env"
 })
 
+const app = express()
 app.use(cors({
   origin: "http://localhost:3000", // allowed my  React frontend
   credentials: true,               // allow cookies cause i'm  using them
 }));
-const app = express()
 
 app.use(cookieParser())  //allow the app to use cookie parser for login timeouts and sessions
 app.use(express.json())
