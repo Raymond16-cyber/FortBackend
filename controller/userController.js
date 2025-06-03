@@ -144,10 +144,17 @@ export const userLoginController = asyncHandler(async (req, res) => {
       }
     );
 
+    // for production
+    // const cookieOptions = {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production", // Only secure in production
+    //   sameSite: "Lax", // Use "None" + secure: true if frontend is hosted on a different domain
+    //   expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+    // };
     const cookieOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Only secure in production
-      sameSite: "Lax", // Use "None" + secure: true if frontend is hosted on a different domain
+      secure: true, // 🔥 REQUIRED for cross-site cookies (especially on Render)
+      sameSite: "None", // 🔥 REQUIRED for cross-origin
       expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
     };
 
