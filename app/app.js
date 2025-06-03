@@ -4,8 +4,6 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 
-
-
 import connectDB from "../config/databaseConnect.js";
 import userRouter from "../routes/userRouter.js";
 import flankAIRouter from "../routes/flankAIRouter.js";
@@ -18,10 +16,12 @@ connectDB();
 const app = express();
 
 // CORS config
-app.use(cors({
-  origin: "http://localhost:3000", // Replace with frontend domain on production
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: "https://fort-8e75ggasn-raymond16-cybers-projects.vercel.app", // Replace with frontend domain on production
+    credentials: true,
+  })
+);
 
 app.use(cookieParser());
 app.use(express.json());
