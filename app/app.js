@@ -18,7 +18,7 @@ const app = express();
 // CORS config
 app.use(
   cors({
-    origin: "https://fort-hive-frontend.vercel.app/", // Replace with frontend domain on production
+    origin: "https://fort-hive-frontend.vercel.app", // Replace with frontend domain on production
     credentials: true,
   })
 );
