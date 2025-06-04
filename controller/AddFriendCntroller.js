@@ -7,7 +7,8 @@ export const AddFriendController = asyncHandler(async (req, res) => {
     const currentUserId = req.myID; // assuming you use middleware to get logged in user
     console.log("oooooooo", currentUserId);
 
-    const friend = await User.findOne({ fname: fname });
+    const friendName = fname.toLowerCase().trim()
+    const friend = await User.findOne({ fname: friendName });
     if (!friend) return res.status(404).json({ message: "User not found" });
     if (friend.id === currentUserId) {
       return res.status(400).json({

@@ -55,12 +55,15 @@ export const userRegisterController = asyncHandler((req, res) => {
         });
       }
 
+      const newFname = fname.toLowerCase().trim()
+      const newLname = lname.toLowerCase().trim()
+
       const hashedPassword = await bcrypt.hash(pword, 10);
       const hashedConfirmPassword = await bcrypt.hash(confirmPword, 10);
       const newUser = await User.create({
-        fname,
-        lname,
-        email,
+        fname: newFname,
+        lname: newLname,
+        email: email,
         pword: hashedPassword,
         confirmPword: hashedConfirmPassword,
         rememberMe,
