@@ -55,8 +55,8 @@ export const userRegisterController = asyncHandler((req, res) => {
         });
       }
 
-      const newFname = fname.toLowerCase().trim()
-      const newLname = lname.toLowerCase().trim()
+      const newFname = fname.toLowerCase().trim();
+      const newLname = lname.toLowerCase().trim();
 
       const hashedPassword = await bcrypt.hash(pword, 10);
       const hashedConfirmPassword = await bcrypt.hash(confirmPword, 10);
@@ -67,6 +67,9 @@ export const userRegisterController = asyncHandler((req, res) => {
         pword: hashedPassword,
         confirmPword: hashedConfirmPassword,
         rememberMe,
+        image: "",
+        bio: "Lets Chat on fort....😁",
+        status: ""
       });
 
       const token = jwt.sign(
@@ -76,6 +79,9 @@ export const userRegisterController = asyncHandler((req, res) => {
           fname: newUser.fname,
           lname: newUser.lname,
           RegDate: newUser.createdAt,
+          image: "",
+          bio: newUser.bio,
+          status: newUser.status,
         },
         process.env.JWT_SECRET,
         {
@@ -120,6 +126,8 @@ export const userLoginController = asyncHandler(async (req, res) => {
 
   try {
     const user = await User.findOne({ email }).select("+pword");
+    console.log("logged in", user);
+
     if (!user) {
       return res.status(404).json({
         error: "There's no account linked with this email, try registering.",
@@ -133,6 +141,8 @@ export const userLoginController = asyncHandler(async (req, res) => {
         .json({ error: "Your email or password is invalid" });
     }
 
+    const UserImage = user.image;
+    const UserBio = user.bio;
     const token = jwt.sign(
       {
         id: user._id,
@@ -140,6 +150,9 @@ export const userLoginController = asyncHandler(async (req, res) => {
         fname: user.fname,
         lname: user.lname,
         RegDate: user.createdAt,
+        image: UserImage,
+        bio: UserBio,
+        status: user.status,
       },
       process.env.JWT_SECRET,
       {
@@ -161,6 +174,7 @@ export const userLoginController = asyncHandler(async (req, res) => {
       expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
     };
 
+    console.log("loggedin", user);
     return res.status(200).cookie("userToken", token, cookieOptions).json({
       successMessage: "User Logged In successfully✅✅",
       token,
@@ -177,8 +191,12 @@ export const userLoginController = asyncHandler(async (req, res) => {
 // Logout controller
 export const userLogoutController = asyncHandler(async (req, res) => {
   console.log("logout successful");
-
-  return res.status(200).cookie("userToken", "").json({
-    success: "true",
+  res.clearCookie("userToken", {
+    httpOnly: true,
+    secure: true, // 🔥 REQUIRED for cross-site cookies (especially on Render)
+    sameSite: "None", // 🔥 REQUIRED for cross-origin
+  });
+  return res.status(200).json({
+    successMessage: "User logged out successfully",
   });
 });

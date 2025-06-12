@@ -25,14 +25,14 @@ const getLastMessage = async (currentUserId, friendID) => {
 
 export const getFriendsController = asyncHandler(async (req, res) => {
   const currentUserId = req.myID;
-  console.log("from cont...",currentUserId);
+  // console.log("from cont...",currentUserId);
   
   let friendMessage = [];
 
   try {
     const user = await User.findById(currentUserId).populate(
       "friends",
-      "fname email lname"
+      "fname email lname image bio status"
     );
 
     for (let i = 0; i < user.friends.length; i++) {
@@ -45,7 +45,7 @@ export const getFriendsController = asyncHandler(async (req, res) => {
         },
       ];
 
-      console.log("new friendMessage:", friendMessage);
+      // console.log("new friendMessage:", friendMessage);
     }
 
     res.json({ friends: friendMessage });

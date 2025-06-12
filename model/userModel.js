@@ -28,8 +28,15 @@ const userSchema = mongoose.Schema({
         default: false
     },
     image: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "ProfileImage"
+        type: String,
+        default: ""
+    },
+    bio:{
+        type: String,
+        default: "Lets Chat on fort....😁"
+    },
+    status:{
+        type: String,
     },
     friends: [{
         type: mongoose.Schema.Types.ObjectId,

@@ -9,6 +9,7 @@ import userRouter from "../routes/userRouter.js";
 import flankAIRouter from "../routes/flankAIRouter.js";
 import friendsRouter from "../routes/friendsRouter.js";
 import friendRequestRouter from "../routes/friendRequestRouter.js";
+import editProfileRouter from "../routes/editProfileRouter.js";
 
 // Connect to database
 connectDB();
@@ -19,6 +20,7 @@ const app = express();
 app.use(
   cors({
     origin: "https://fort-hive-frontend.vercel.app", // Replace with frontend domain on production
+    // origin: "https://localhost:3000",
     credentials: true,
   })
 );
@@ -33,9 +35,10 @@ app.get("/", (req, res) => {
 });
 
 // Routers
-app.use("/api/v1/fort", userRouter);
+app.use("/api/v1/fort", userRouter)
 app.use("/api/v1/fort", friendsRouter);
 app.use("/api/v1/fort", friendRequestRouter);
 app.use("/api/v1/fort", flankAIRouter); // ✅ fixed missing slash
+app.use("/api/v1/fort",editProfileRouter)
 
 export default app;

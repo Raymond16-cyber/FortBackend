@@ -97,7 +97,7 @@ export const sendImageController = async (req, res) => {
     console.log("FIELDS:", fields);
     console.log("FILES:", files.originalFilename);
     if (error) {
-      return res.status(400).json({ message: "Error parsing the image" });
+      return res.status(400).json({ message: "Error parsing the image" });  
     }
 
     const senderName = fields.senderName?.[0];
