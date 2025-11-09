@@ -32,4 +32,4 @@ export const AddFriendController = asyncHandler(async (req, res) => {
   }));
 
   res.json({ friends: formattedFriends });
-});
+})

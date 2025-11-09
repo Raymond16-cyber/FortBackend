@@ -1,4 +1,3 @@
-import { log } from "console";
 import Messages from "../model/messageModel.js";
 import User from "../model/userModel.js";
 import formidable from "formidable";
@@ -9,6 +8,7 @@ import { fileURLToPath } from "url";
 export const sendMessageController = async (req, res) => {
   const { senderName, receiverID, message } = req.body;
   const senderID = req.myID;
+  console.log("Sender ID:", senderID);
 
   try {
     const insertMessage = await Messages.create({
@@ -112,7 +112,7 @@ export const sendImageController = async (req, res) => {
 
     const newPath = path.join(
       __dirname,
-      `../../front-end/public/userSentImages/${imageName}`
+      `../../client/public/userSentImages/${imageName}`
     );
 
     file.originalFilename = imageName;

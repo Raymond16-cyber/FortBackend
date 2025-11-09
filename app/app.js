@@ -2,14 +2,19 @@ import express from "express";
 
 import cors from "cors";
 import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
 
 import connectDB from "../config/databaseConnect.js";
 import userRouter from "../routes/userRouter.js";
-import flankAIRouter from "../routes/flankAIRouter.js";
+import emailRouter from "../routes/emailRouter.js";
+
 import friendsRouter from "../routes/friendsRouter.js";
 import friendRequestRouter from "../routes/friendRequestRouter.js";
 import editProfileRouter from "../routes/editProfileRouter.js";
+import FlashRoomRouter from "../routes/Rooms/FlashRoomRouter.js";
+import flankAiRouter from "../routes/flankAi/flankAiRouter.js";
+import archiveChatRouter from "../routes/archiveChatRoute.js";
+import settingsRouter from "../routes/updatesettingsRoute.js";
+import cookieParser from "cookie-parser"
 
 // Connect to database
 connectDB();
@@ -19,8 +24,8 @@ const app = express();
 // CORS config
 app.use(
   cors({
-    origin: "https://fort-hive-frontend.vercel.app", // Replace with frontend domain on production
-    // origin: "https://localhost:3000",
+    // origin: "https://fort-hive-frontend.vercel.app", // Replace with frontend domain on production
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
@@ -35,10 +40,14 @@ app.get("/", (req, res) => {
 });
 
 // Routers
-app.use("/api/v1/fort", userRouter)
+app.use("/api/v1/fort", userRouter);
+app.use("/api/v1/fort", settingsRouter);
+app.use("/api/v1/fort", emailRouter);
 app.use("/api/v1/fort", friendsRouter);
+app.use("/api/v1/fort", archiveChatRouter);
 app.use("/api/v1/fort", friendRequestRouter);
-app.use("/api/v1/fort", flankAIRouter); // ✅ fixed missing slash
-app.use("/api/v1/fort",editProfileRouter)
+app.use("/api/v1/fort", editProfileRouter);
+app.use("/api/v1/fort", FlashRoomRouter);
+app.use("/api/v1/fort", flankAiRouter);
 
 export default app;

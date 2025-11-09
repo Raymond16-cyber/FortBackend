@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 
 // For mongo atlas
-const connString =
-  process.env.MONGO_URL ||
-  "mongodb+srv://Raymond17:wsqbGhGGytmxVInn@clustergomycode.7pynx6y.mongodb.net/forthiveusers";
+// const connString =
+//   process.env.MONGO_URL ||
+//   "mongodb+srv://Raymond17:wsqbGhGGytmxVInn@clustergomycode.7pynx6y.mongodb.net/forthiveusers";
 
 // locally
-// const connString = process.env.MONGO_URL || "mongodb://localhost:27017/fortHiveUsers";
+const connString =
+  process.env.MONGO_URL || "mongodb://localhost:27017/fortHiveUsers";
 
 const connectDB = async () => {
   try {

@@ -7,14 +7,16 @@ const friendRequestSchema = new mongoose.Schema(
       required: true,
     },
     senderId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     receiverId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
-    friendRequest: {
+    requestStatus: {
       type: String,
       enum: ["pending", "accepted", "declined", "blocked"],
       default: "pending",
